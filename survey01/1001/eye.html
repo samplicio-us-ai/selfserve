@@ -1,1 +1,22 @@
-
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Eye Tracker Demo</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
+</head>
+<body>
+  <main>
+    <h2>👁 Eye Tracking Demo</h2>
+    <p>Allow webcam access to see gaze tracking in action.</p>
+    <canvas id="overlay"></canvas>
+  </main>
+  <script>
+    window.onload = function() {
+      webgazer.setRegression('ridge')
+              .setTracker('clmtrackr')
+              .begin();
+    };
+  </script>
+</body>
+</html>
