@@ -1,1 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Survey | OpenionBD</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+<body>
+  <main>
+    <h2>Survey Questions</h2>
+    <form action="https://formspree.io/f/yourFormID" method="POST" onsubmit="return validateCaptcha()">
+      <label>1. Describe your favorite holiday memory:</label><br>
+      <textarea name="holiday" required></textarea><br><br>
 
+      <label>2. Which FEDVIP dental carrier comes to mind first?</label><br>
+      <input type="text" name="carrier" required><br><br>
+
+      <label>3. What motivates you to join surveys?</label><br>
+      <input type="text" name="motivation" required><br><br>
+
+      <label>4. How do you prefer to redeem rewards?</label><br>
+      <input type="text" name="redeem" required><br><br>
+
+      <!-- reCAPTCHA -->
+      <div class="g-recaptcha" data-sitekey="YOUR_SITE_KEY"></div><br>
+
+      <button type="submit" class="survey-btn">Submit</button>
+    </form>
+  </main>
+
+  <script>
+    function validateCaptcha() {
+      if (grecaptcha.getResponse().length === 0) {
+        alert("Please verify you are human!");
+        return false;
+      }
+      return true;
+    }
+  </script>
+</body>
+</html>
