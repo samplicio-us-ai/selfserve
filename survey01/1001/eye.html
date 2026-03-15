@@ -4,18 +4,64 @@
   <title>Eye Tracker Demo</title>
   <link rel="stylesheet" href="style.css">
   <script src="https://webgazer.cs.brown.edu/webgazer.js"></script>
+  <style>
+    #dot {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      border-radius: 50%;
+    }
+    #controls {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      background: #fff;
+      padding: 10px;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+  </style>
 </head>
 <body>
-  <main>
-    <h2>👁 Eye Tracking Demo</h2>
-    <p>Allow webcam access to see gaze tracking in action.</p>
-    <canvas id="overlay"></canvas>
-  </main>
+  <div id="controls">
+    <button onclick="setMode('follow')">👁 Follow Mode</button>
+    <button onclick="setMode('replace')">🔄 Replace Mode</button>
+  </div>
+
+  <div id="dot"></div>
+
   <script>
+    let mode = "replace"; // default mode
+    let intervalId;
+
+    function setMode(newMode) {
+      mode = newMode;
+      clearInterval(intervalId);
+
+      if (mode === "replace") {
+        moveDot(); // place once immediately
+        intervalId = setInterval(moveDot, 2000); // move every 2s
+      } else if (mode === "follow") {
+        webgazer.setGazeListener(function(data) {
+          if (data == null) return;
+          const dot = document.getElementById("dot");
+          dot.style.left = (data.x - 10) + "px";
+          dot.style.top  = (data.y - 10) + "px";
+        });
+      }
+    }
+
+    function moveDot() {
+      const dot = document.getElementById("dot");
+      dot.style.left = Math.random() * (window.innerWidth - 20) + "px";
+      dot.style.top  = Math.random() * (window.innerHeight - 20) + "px";
+    }
+
+    // Start WebGazer
     window.onload = function() {
-      webgazer.setRegression('ridge')
-              .setTracker('clmtrackr')
-              .begin();
+      webgazer.begin();
+      setMode("replace"); // start in replace mode
     };
   </script>
 </body>
